@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# editors ignore
+.vscode/
+.idea/
+
+# C++ ignore
+*.out
+*.o
+*.a
