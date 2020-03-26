@@ -1,30 +1,31 @@
 import numpy as np
+rnd = np.random
 
 # configuration -----------------------------------------------------
 box_size = 20
 n_atoms = 1000
-mc_steps = 100
-independent_simulations = 30
+mc_steps = 70
+independent_simulations = 20000//n_atoms
 
 assert n_atoms < box_size ** 3
+
+# initialization -----------------------------------------------------
 print("#    L = {}\n"
       "#    N = {}\n"
       "#    C = {}\n"
       "#    {} MCS, {} independent simulations"
       .format(box_size, n_atoms, n_atoms*box_size**(-3), mc_steps, independent_simulations))
 
-# initialization -----------------------------------------------------
-rnd = np.random
 
 # possible moves of an atom in a step
 moves = [[1, 0, 0], [-1, 0, 0], [0, 1, 0],
          [0, -1, 0], [0, 0, 1], [0, 0, -1]]
 
-results_avg = np.zeros(mc_steps)    # D(MCS) averaged over atoms and ind. simul.
+results_avg = np.zeros(mc_steps)    # R2[MCS] averaged over atoms and ind. simul.
 
 for sim_no in range(independent_simulations):
 
-    results = np.zeros_like(results_avg)    # D[MCS] averaged over atoms
+    results = np.zeros_like(results_avg)    # R2[MCS] averaged over atoms
 
     # occupied places
     occupied = np.zeros((box_size, box_size, box_size), dtype=bool)
