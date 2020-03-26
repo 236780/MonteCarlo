@@ -1,20 +1,19 @@
 import numpy as np
 
 # configuration -----------------------------------------------------
-box_size = 30
-n_atoms = 1
-mc_steps = 10
+box_size = 20
+n_atoms = 1000
+mc_steps = 100
 independent_simulations = 30
 
 assert n_atoms < box_size ** 3
-print("L = {}\n"
-      "N = {}\n"
-      "C = {}\n"
-      "{} independent simulations"
-      .format(box_size, n_atoms, n_atoms*box_size**(-3), independent_simulations))
+print("#    L = {}\n"
+      "#    N = {}\n"
+      "#    C = {}\n"
+      "#    {} MCS, {} independent simulations"
+      .format(box_size, n_atoms, n_atoms*box_size**(-3), mc_steps, independent_simulations))
 
 # initialization -----------------------------------------------------
-rng = np.random.default_rng()
 rnd = np.random
 
 # possible moves of an atom in a step
@@ -69,5 +68,7 @@ for sim_no in range(independent_simulations):
 
     results_avg += results/independent_simulations  # average over independent simulations
 
-for x in results_avg:
-    print(x)
+D = [results_avg[t] / (6*t) for t in range(1,mc_steps)]
+
+for item in D:
+    print(item)
