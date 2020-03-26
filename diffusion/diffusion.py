@@ -69,6 +69,7 @@ for sim_no in range(independent_simulations):
 
     results_avg += results/independent_simulations  # average over independent simulations
 
+# Calculating and printing the diffusion coefficient ---------------------
 D = [results_avg[t] / (6*t) for t in range(1,mc_steps)]
 
 for item in D:
