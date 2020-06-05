@@ -17,8 +17,6 @@ default_random_engine rng_engine;
 uniform_real_distribution<double> rng_distribution(0.0,1.0);
 inline double rnd() {return rng_distribution(rng_engine);}
 
-double dE(uint i, uint j, uint k);  // TODO
-
 int main(int argc, char** argv)
 {
     // Ustawienie ziarna RNG:
@@ -28,23 +26,49 @@ int main(int argc, char** argv)
 
     // Wczytaj parametry z wej. standardowego:
     cin >> L >> mcs >> T;
-    cout << "# L = " << L << ", T = " << T << ", " << mcs << " MCS" << endl;
+    cout << "# L = " << L << ", T* = " << T << ", " << mcs << " MCS" << endl;
     cout << "# seed: " << rng_seed;
 
-    // Inicjalizacja tablicy:
+    // Oblicz czynniki exp(-dU/T*)
+    double boltzmann[7];
+    for(char dU=-6; dU<=6; dU+=2)
+        boltzmann[dU] = exp(-double(dU)/T);
+    // Deklaracja tablicy:
     char spin[L][L][L];
-    char newspin[L][L][L];
 
     // Losowanie konf. poczatkowej
-    for(uint i=0;i<L;i++)
+    for(uint i=0;i<L;i++){
+    for(uint j=0;j<L;j++){
+    for(uint k=0;k<L;k++)
     {
-        for(uint j=0;j<L;j++)
+        char rand_spin = rnd()<0.5 ? -1 : 1;
+        spin[i][j][k] = rand_spin;
+    }}}
+
+    // Monte Carlo
+    for(uint step=0;step<mcs;step++)
+    {
+        long M=0;
+        for(uint i=0;i<L;i++){
+        for(uint j=0;j<L;j++){
+        for(uint k=0;k<L;k++)
         {
-            for(uint k=0;k<L;k++)
+            char dU = 2*spin[i][j][k]*(
+              spin[prev(i)][j][k]+spin[next(i)][j][k]+
+              spin[i][prev(j)][k]+spin[i][next(j)][k]+
+              spin[i][j][prev(k)]+spin[i][j][next(k)]);
+
+            if(dU < 0 || rnd() < boltzmann[dU])
             {
-                char rand_spin = rnd()<0.5 ? -1 : 1;
-                spin[i][j][k] = rand_spin;
+                spin[i][j][k] = -spin[i][j][k];
             }
+            M += spin[i][j][k];
+        }}}
+
+        if(step%100 == 0)
+        {
+            double m = (double)M / (double)pow(L,3);
+            cout << m << endl;
         }
     }
 
