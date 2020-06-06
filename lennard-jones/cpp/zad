@@ -1,0 +1,16 @@
+Szanowni Państwo,
+
+przedstawiam zadania do wykonania w ramach modelu cieczy LJ.
+Do wyboru są dwa zadania:
+1. obserwacja konfiguracji (15 pkt)
+przedstawić konfigurację 100 atomów w układzie 35x35, po 50 000 MCS dla następujących temperatur: T*=0.1 (a), T*=0.5 (b), T*=1.0 (c);
+
+2. zależność ciepła właściwego od gęstości (25 pkt)
+przedstawić zależność ciepła właściwego od gęstości dla temperatury T*=0.7; w tym celu przeprowadzić symulację 150 000 MCS układu 35x35 dla każdej badanej gęstości, wybrać do analizy co tysięczną konfigurację z ostatnich 100 000 MCS (analizujemy 100 konfiguracji w równowadze); obliczyć energię potencjalną każdej analizowanej konfiguracji, następnie obliczyć wartość ciepła właściwego dla danej gęstości jako wariancję energii U:
+c=1/(N*kB*T^2)*Var(U), czyli w nowych jednostkach (U* w jednostkach epsilon, temperatura zredukowana) c=1/(N*(T*)^2) Var(U*); badania przeprowadzić dla zakresu gęstości (0.5;0.9).
+Uwaga: obliczenia można przyspieszyć obcinając zasięg oddziaływania do Rc=2,5*sigma (jeśli dwa atomy są odległe od siebie o więcej niż 2.5, to energia ich oddziaływania wynosi 0).
+
+Proponuję ostateczny termin dostarczenia wyników: 15 maja 2010.
+Konsultacje via discord: wtorek, godz. 10.
+
+G. P. 

@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     // Oblicz czynniki exp(-dU/T*)
     double boltzmann[7];
     for(char dU=-6; dU<=6; dU+=2)
-        boltzmann[dU] = exp(-double(dU)/T);
+        boltzmann[(dU+6)/2] = exp(-double(dU)/T);
     // Deklaracja tablicy:
     char spin[L][L][L];
 
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
               spin[i][prev(j)][k]+spin[i][next(j)][k]+
               spin[i][j][prev(k)]+spin[i][j][next(k)]);
 
-            if(dU < 0 || rnd() < boltzmann[dU])
+            if(dU < 0 || rnd() < boltzmann[(dU+6)/2])
             {
                 spin[i][j][k] = -spin[i][j][k];
             }
