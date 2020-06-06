@@ -32,7 +32,10 @@ int main(int argc, char** argv)
     // Oblicz czynniki exp(-dU/T*)
     double boltzmann[7];
     for(char dU=-6; dU<=6; dU+=2)
+    {
         boltzmann[(dU+6)/2] = exp(-double(dU)/T);
+        cout << "#" << boltzmann[(dU+6)/2] << endl; //DEBUG
+    }
     // Deklaracja tablicy:
     char spin[L][L][L];
 
@@ -49,11 +52,12 @@ int main(int argc, char** argv)
     for(uint step=0;step<mcs;step++)
     {
         long M=0;
+        long E=0;
         for(uint i=0;i<L;i++){
         for(uint j=0;j<L;j++){
         for(uint k=0;k<L;k++)
         {
-            char dU = 2*spin[i][j][k]*(
+            char dU = -2*spin[i][j][k]*(
               spin[prev(i)][j][k]+spin[next(i)][j][k]+
               spin[i][prev(j)][k]+spin[i][next(j)][k]+
               spin[i][j][prev(k)]+spin[i][j][next(k)]);
@@ -61,14 +65,20 @@ int main(int argc, char** argv)
             if(dU < 0 || rnd() < boltzmann[(dU+6)/2])
             {
                 spin[i][j][k] = -spin[i][j][k];
+                E += dU;
             }
+            else
+            {
+                E += -dU;
+            }
+            
             M += spin[i][j][k];
         }}}
 
-        if(step%100 == 0)
+        if(step%100 == 0 && step > 30000)
         {
             double m = (double)M / (double)pow(L,3);
-            cout << m << endl;
+            cout << m << "\t\t" << E << endl;
         }
     }
 
